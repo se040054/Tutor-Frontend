@@ -1,4 +1,4 @@
-require('dotenv').config()
+require('dotenv').config({ path: './environment/dev/.env' })
 
 const express = require('express')
 const { engine } = require('express-handlebars')
@@ -7,9 +7,9 @@ const port = process.env.PORT
 const flash = require('connect-flash')
 const session = require('express-session')
 
-const messageHandler = require('./middleware/message-handler')
-const loginUserHandler = require('./middleware/login-user-handler')
-const { pages } = require('./routes')
+const messageHandler = require('./src/middleware/message-handler')
+const loginUserHandler = require('./src/middleware/login-user-handler')
+const pages = require('./src/routes/index')
 
 app.engine('.hbs', engine({ extname: '.hbs' }))
 app.set('view engine', '.hbs')
