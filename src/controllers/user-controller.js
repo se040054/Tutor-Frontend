@@ -53,6 +53,12 @@ const userController = {
         }
       })
       .catch(err => next(err))
+  },
+  logout: (req, res) => {
+    delete req.session.token
+    delete req.session.user
+    req.flash('success_messages', '已登出')
+    return res.redirect('/users/login')
   }
 }
 module.exports = userController
