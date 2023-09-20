@@ -8,7 +8,6 @@ const flash = require('connect-flash')
 const session = require('express-session')
 
 const messageHandler = require('./src/middleware/message-handler')
-const loginUserHandler = require('./src/middleware/login-user-handler')
 const pages = require('./src/routes/index')
 
 app.engine('.hbs', engine({ extname: '.hbs' }))
@@ -27,13 +26,8 @@ app.use(session({
 app.use(flash())
 
 app.use(messageHandler)
-app.use(loginUserHandler)
 
 app.use(pages)
-
-app.get('/', (req, res) => {
-  res.render('dev/dev_home')
-})
 
 app.listen(port, () => {
   console.info(`http://localhost:${port}`)

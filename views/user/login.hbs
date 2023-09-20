@@ -1,2 +1,14 @@
-<h1>Heelo</h1>
-<p>here login</p>
+<h1 class="h1 mb-5">Login</h1>
+<form action="/users/login" method="post">
+  <div class="mb-3">
+    <label for="exampleInputEmail1" class="form-label">Email</label>
+    <input type="email" class="form-control"aria-describedby="emailHelp" name="email" id="email">
+  </div>
+  <div class="mb-3">
+    <label for="exampleInputPassword1" class="form-label">Password</label>
+    <input type="password" class="form-control" id="exampleInputPassword1" name="password">
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+<a href="/users/register">Don't have an account ?Register</a>

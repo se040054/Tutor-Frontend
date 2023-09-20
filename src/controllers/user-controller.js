@@ -1,4 +1,5 @@
 const axios = require('axios')
+const { response } = require('express')
 const instance = axios.create({
   baseURL: `http://localhost:${process.env.API_PORT}/api/`
 })
@@ -31,6 +32,27 @@ const userController = {
         console.log(err)
         return next(err)
       })
+  },
+  postLogin: (req, res, next) => {
+    const { email, password } = req.body
+    if (!email || !password) throw new Error('請填寫信箱密碼')
+    return instance.post('/users/login',
+      {
+        email,
+        password
+      })
+      .then(response => {
+        if (response.data.data) {
+          req.flash('success_messages', '登入成功')
+          const { token, user } = response.data.data
+          req.session.token = token
+          req.session.user = user
+          return res.redirect('/home')
+        } else {
+          return res.redirect('/users/login')
+        }
+      })
+      .catch(err => next(err))
   }
 }
 module.exports = userController
