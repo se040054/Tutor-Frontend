@@ -1,38 +1,38 @@
 const passport = require('passport')
 
-const { User } = require('../models')
-const LocalStrategy = require('passport-local')
-const bcrypt = require('bcryptjs')
+const GoogleStrategy = require('passport-google-oauth20').Strategy
 
-passport.use(new LocalStrategy(
-  // 客製化欄位資料+選項
-  {
-    usernameField: 'email',
-    passwordField: 'password',
-    passReqToCallback: true // 此次生命週期登入後回調函式把user丟進req.user(下面記得加req)
-  },
-  // 驗證登入流程
-  (req, email, password, cb) => { // 這裡的req是上面的回調函式需要用的 不能移除
-    User.findOne({ where: { email } })
-      .then(user => {
-        if (!user) return cb(new Error('用戶不存在'), false)
-        bcrypt.compare(password, user.password)
-          .then(res => {
-            if (!res) return cb(new Error('密碼錯誤'), false)
-            return cb(null, user)
-          })
-      })
-      .catch(err => cb(err))
-  }
-))
+const axios = require('axios')
 
-// passport.serializeUser((user, cb) => {
-//   cb(null, user.id)
-// })
-// passport.deserializeUser((id, cb) => {
-//   return User.findByPk(id)
-//     .then(user => cb(null, user.toJSON()))
-//     .catch(err => cb(err))
-// })
+const instance = axios.create({
+  baseURL: `http://localhost:${process.env.API_PORT}/api/`
+})
+
+passport.use(new GoogleStrategy({
+  clientID: process.env.GOOGLE_CLIENT_ID,
+  clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+  callbackURL: process.env.GOOGLE_CALLBACK_URL,
+  scope: ['email', 'profile'],
+  state: true,
+  passReqToCallback: true
+},
+(req, accessToken, refreshToken, profile, cb) => {
+  const user = profile._json
+  return instance.post('/users/googleLogin',
+    {
+      email: user.email,
+      name: user.name
+    })
+    .then(response => {
+      console.log(response.data.data.data)
+      req.session.token = response.data.data.data.token
+      req.session.user = response.data.data.data.user
+      return cb(null)
+    })
+    .catch(err => {
+      err.errorMessage = '使用GOOGLE登入失敗'
+      return cb(err)
+    })
+}))
 
 module.exports = passport

@@ -1,5 +1,4 @@
 const axios = require('axios')
-const { response } = require('express')
 const instance = axios.create({
   baseURL: `http://localhost:${process.env.API_PORT}/api/`
 })
@@ -10,7 +9,7 @@ const userController = {
   },
   renderLogin: (req, res) => {
     if (req.session.token) {
-      req.flash('error_messages', '尚未登出')
+      // 這邊如果設置訊息 會導致google登入時產生錯誤訊息
       return res.redirect('/home')
     }
     res.render('user/login')
@@ -42,6 +41,9 @@ const userController = {
       })
   },
   postLogin: (req, res, next) => {
+    if (req.session.token) {
+      req.flash('error_messages', '尚未登出')
+    }
     const { email, password } = req.body
     if (!email || !password) throw new Error('請填寫信箱密碼')
     return instance.post('/users/login',
@@ -51,8 +53,9 @@ const userController = {
       })
       .then(response => {
         if (response.data.data) {
+          console.log(response.data.data.data)
           req.flash('success_messages', '登入成功')
-          const { token, user } = response.data.data
+          const { token, user } = response.data.data.data
           req.session.token = token
           req.session.user = user
           return res.redirect('/home')
