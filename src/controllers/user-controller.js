@@ -9,9 +9,17 @@ const userController = {
     res.render('user/register')
   },
   renderLogin: (req, res) => {
+    if (req.session.token) {
+      req.flash('error_messages', '尚未登出')
+      return res.redirect('/home')
+    }
     res.render('user/login')
   },
   postRegister: (req, res, next) => {
+    if (req.session.token) {
+      req.flash('error_messages', '尚未登出')
+      return res.redirect('/home')
+    }
     const { email, password, confirmPassword } = req.body
     if (!email || !password || !confirmPassword) throw new Error('信箱、密碼、確認密碼不能為空')
     if (password !== confirmPassword) throw new Error('密碼不一致')

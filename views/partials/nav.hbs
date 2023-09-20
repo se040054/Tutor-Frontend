@@ -1,0 +1,42 @@
+<nav class="navbar navbar-expand-lg  bg-dark"  data-bs-theme="dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Tutor</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        {{#if loginUser}}
+        <li class="nav-item  ms-5 me-4" >
+          <a class="nav-link active" aria-current="page" href="/users/{{loginUser.id}}">
+          {{#if loginUser.name}}
+          {{loginUser.name}}
+          {{else}}
+          使用者頁面
+          {{/if}}
+          </a>
+        </li>
+        {{#if loginUser.isTeacher}}
+        <li class="nav-item  ms-4 me-4">
+          <a class="nav-link active" aria-current="page" href="/teachers/myLessons">教師頁面</a>
+        </li>
+        {{else}}
+        <li class="nav-item  ms-4 me-4">
+          <a class="nav-link active" aria-current="page" href="/teachers/applyTeacher">成為教師</a>
+        </li>
+        {{/if}}
+        <li class="nav-item ms-5 me-3">
+          <a class="nav-link" href="/users/logout">登出</a>
+        </li>
+        {{else}}
+        <li class="nav-item  ms-4 me-4">
+          <a class="nav-link active" aria-current="page" href="/users/login">登入</a>
+        </li>
+        <li class="nav-item  ms-4 me-4">
+          <a class="nav-link active" aria-current="page" href="/users/register">註冊</a>
+        </li>
+        {{/if}}
+      </ul>
+    </div>
+  </div>
+</nav>
