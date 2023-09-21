@@ -1,11 +1,27 @@
-<a href="/users/register">Register</a>
 
-<a href="/users/login">Login</a>
+<div class="mb-3">
+  <a href="/users/register">註冊</a>
+</div>
 
-<small>your token is {{token}}</small>
+<div class="mb-3">
+  <a href="/users/login">登入</a>
+</div>
+
+<div class="mb-3">
+<a href="/users/applyTeacher">申請教師</a>
+</div>
+
+<div class="mb-3">
+  <p>你的token : </p>
+  <textarea class="textarea" rows="6" cols="80" >{{token}}</textarea>
+</div>
+
+
 
 <p>you are {{user.name}}</p>
 
 <p>locals {{loginUser.name}}</p>
 
 <a href="/users/logout">Logout</a>
+
+<div></div>

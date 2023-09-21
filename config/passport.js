@@ -24,7 +24,6 @@ passport.use(new GoogleStrategy({
       name: user.name
     })
     .then(response => {
-      console.log(response.data.data.data)
       req.session.token = response.data.data.data.token
       req.session.user = response.data.data.data.user
       return cb(null)

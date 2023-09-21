@@ -1,10 +1,15 @@
 const axios = require('axios')
+const { response } = require('express')
 const instance = axios.create({
   baseURL: `http://localhost:${process.env.API_PORT}/api/`
 })
 
 const userController = {
   renderRegister: (req, res) => {
+    if (req.session.token) {
+      req.flash('error_messages', '尚未登出')
+      return res.redirect('/home')
+    }
     res.render('user/register')
   },
   renderLogin: (req, res) => {
@@ -53,7 +58,6 @@ const userController = {
       })
       .then(response => {
         if (response.data.data) {
-          console.log(response.data.data.data)
           req.flash('success_messages', '登入成功')
           const { token, user } = response.data.data.data
           req.session.token = token
@@ -70,6 +74,41 @@ const userController = {
     delete req.session.user
     req.flash('success_messages', '已登出')
     return res.redirect('/users/login')
+  },
+  renderApplyTeacher: (req, res) => {
+    if (req.session.user.isTeacher) {
+      req.flash('error_messages', '你已經是教師了')
+      return res.redirect('back')
+    }
+    return res.render('user/applyTeacher')
+  },
+  postApplyTeacher: (req, res, next) => {
+    if (req.session.user.isTeacher) {
+      req.flash('error_messages', '你已經是教師了')
+      return res.redirect('back')
+    }
+    const { courseIntroduce, courseUrl, teachStyle } = req.body
+    if (!courseIntroduce || !courseUrl || !teachStyle) {
+      req.flash('error_messages', '有資料未填寫')
+      return res.redirect('back')
+    }
+    instance.post('/users/applyTeacher', {
+      courseIntroduce,
+      courseUrl,
+      teachStyle
+    },
+    {
+      headers: { Authorization: `Bearer ${req.session.token}` }
+    }) // Bearer 跟 token 中間有一個空格
+      .then(response => {
+        if (response.data.data) {
+          req.flash('success_messages', '已成為教師!')
+          return res.redirect('/home')
+        }
+        req.flash('error_messages', '申請成為教師失敗!')
+        return res.redirect('/home')
+      })
+      .catch(err => next(err))
   }
 }
 module.exports = userController
