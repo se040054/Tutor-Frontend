@@ -4,7 +4,8 @@ const express = require('express')
 const app = express()
 const { engine } = require('express-handlebars')
 const handlebarsHelpers = require('./helpers/handlebars-helpers')
-
+const methodOverride = require('method-override')
+app.use(methodOverride('_method'))
 app.engine('hbs', engine({ extname: '.hbs', helpers: handlebarsHelpers }))
 const port = process.env.PORT
 

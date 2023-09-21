@@ -1,0 +1,21 @@
+<h1 class="mb-5">編輯個人資料:</h1>
+
+<form action="/users/:id?_method=PUT" method="post">
+  <div class="mb-5">
+    <label for="">
+      名稱:
+      <input type="text" name="name" value="{{loginUser.name}}">
+    </label>
+  </div>
+
+  <div class="mb-5">
+    <label for="">
+      個人描述:
+      <textarea name="introduction" rows="10" cols="80" >{{loginUser.introduction}}</textarea>
+    </label>
+  </div>
+  <div class="mb-5">
+    <button class="btn btn-warning">編輯</button>
+  </div>
+
+</form>

@@ -12,4 +12,6 @@ router.get('/users/applyTeacher', authenticated, userController.renderApplyTeach
 router.post('/users/applyTeacher', authenticated, userController.postApplyTeacher)
 
 router.get('/users/:id', authenticated, userController.renderUser)
+router.get('/users/:id/editProfile', authenticated, userController.renderUserEdit)
+router.put('/users/:id', authenticated, userController.putUser)
 module.exports = router

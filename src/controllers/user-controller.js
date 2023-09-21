@@ -36,7 +36,7 @@ const userController = {
       }
     )
       .then(response => {
-        if (response.data.data) { // 因為res的資料會有一層data api的資料也叫做data 所以兩層
+        if (response.status === 200) { // 因為res的資料會有一層data api的資料也叫做data 所以兩層
           req.flash('success_messages', '創建帳號成功')
           return res.redirect('/users/login')
         }
@@ -97,12 +97,9 @@ const userController = {
       courseIntroduce,
       courseUrl,
       teachStyle
-    },
-      {
-        headers: { Authorization: `Bearer ${req.session.token}` }
-      }) // Bearer 跟 token 中間有一個空格
+    }, { headers: { Authorization: `Bearer ${req.session.token}` } }) // Bearer 跟 token 中間有一個空格
       .then(response => {
-        if (response.data.data) {
+        if (response.status === 200) {
           req.flash('success_messages', '已成為教師!')
           return res.redirect('/home')
         }
@@ -127,11 +124,29 @@ const userController = {
         Reserves.filter(reserve => moment(reserve.Lesson.daytime).isSameOrAfter(moment()))
       const lessonHistoryReserves =
         Reserves.filter(reserve => moment(reserve.Lesson.daytime).isSameOrBefore(moment()))
-      console.log(`我的課程:${JSON.stringify(Reserves)}
-      行程表 : ${JSON.stringify(scheduleReserves)} 
-      歷史: ${JSON.stringify(lessonHistoryReserves)}`)
       return res.render('user/profile', { user, userRanking, scheduleReserves, lessonHistoryReserves })
     }).catch(err => next(err))
+  },
+  renderUserEdit: (req, res) => {
+    return res.render('user/editProfile')
+  },
+  putUser: (req, res, next) => {
+    const { name, introduction } = req.body
+    if (!name || !introduction) {
+      req.flash('error_messages', '不能改為空白')
+      res.redirect('back')
+    }
+    return instance.put(`/users/${req.session.user.id}`, {
+      name,
+      introduction
+    }, { headers: { Authorization: `Bearer ${req.session.token}` } })
+      .then(response => {
+        console.log(response.status)
+        if (response.status === 200) {
+          req.flash('success_messages', '修改個人資料成功')
+          return res.redirect(`/users/${req.session.user.id}`)
+        }
+      }).catch(err => next(err))
   }
 }
 module.exports = userController
