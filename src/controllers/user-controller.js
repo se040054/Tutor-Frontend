@@ -1,5 +1,6 @@
 const axios = require('axios')
 const { response } = require('express')
+const moment = require('moment')
 const instance = axios.create({
   baseURL: `http://localhost:${process.env.API_PORT}/api/`
 })
@@ -97,9 +98,9 @@ const userController = {
       courseUrl,
       teachStyle
     },
-    {
-      headers: { Authorization: `Bearer ${req.session.token}` }
-    }) // Bearer 跟 token 中間有一個空格
+      {
+        headers: { Authorization: `Bearer ${req.session.token}` }
+      }) // Bearer 跟 token 中間有一個空格
       .then(response => {
         if (response.data.data) {
           req.flash('success_messages', '已成為教師!')
@@ -109,6 +110,28 @@ const userController = {
         return res.redirect('/home')
       })
       .catch(err => next(err))
+  },
+  renderUser: (req, res, next) => {
+    const { id } = req.params
+    instance.get(`/users/${id}`, {
+      headers: { Authorization: `Bearer ${req.session.token}` }
+    }).then(response => {
+      const { user, userRanking } = response.data.data
+      if (user.id !== req.session.user.id) {
+        req.flash('error_messages', '僅能查看自己的頁面')
+        return res.redirect('back')
+      }
+
+      const Reserves = user.Reserves
+      const scheduleReserves =
+        Reserves.filter(reserve => moment(reserve.Lesson.daytime).isSameOrAfter(moment()))
+      const lessonHistoryReserves =
+        Reserves.filter(reserve => moment(reserve.Lesson.daytime).isSameOrBefore(moment()))
+      console.log(`我的課程:${JSON.stringify(Reserves)}
+      行程表 : ${JSON.stringify(scheduleReserves)} 
+      歷史: ${JSON.stringify(lessonHistoryReserves)}`)
+      return res.render('user/profile', { user, userRanking, scheduleReserves, lessonHistoryReserves })
+    }).catch(err => next(err))
   }
 }
 module.exports = userController

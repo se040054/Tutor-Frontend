@@ -10,4 +10,6 @@ router.post('/users/login', userController.postLogin)
 router.get('/users/logout', authenticated, userController.logout)
 router.get('/users/applyTeacher', authenticated, userController.renderApplyTeacher)
 router.post('/users/applyTeacher', authenticated, userController.postApplyTeacher)
+
+router.get('/users/:id', authenticated, userController.renderUser)
 module.exports = router

@@ -1,16 +1,19 @@
 require('dotenv').config({ path: './environment/dev/.env' })
 
 const express = require('express')
-const { engine } = require('express-handlebars')
 const app = express()
+const { engine } = require('express-handlebars')
+const handlebarsHelpers = require('./helpers/handlebars-helpers')
+
+app.engine('hbs', engine({ extname: '.hbs', helpers: handlebarsHelpers }))
 const port = process.env.PORT
+
 const flash = require('connect-flash')
 const session = require('express-session')
 
 const messageHandler = require('./src/middleware/message-handler')
 const pages = require('./src/routes/index')
 
-app.engine('.hbs', engine({ extname: '.hbs' }))
 app.set('view engine', '.hbs')
 app.set('views', './views')
 
