@@ -4,6 +4,7 @@ const router = express.Router()
 const users = require('./users')
 const auth = require('./auth')
 const home = require('./home')
+const teachers= require('./teachers')
 const { generalErrorHandler } = require('../middleware/error-handler')
 const { authenticated } = require('../middleware/auth-handler')
 
@@ -17,6 +18,7 @@ router.get('/dev_home', authenticated, (req, res) => {
 router.use(users)
 router.use(auth)
 router.use(home)
+router.use(teachers)
 
 router.use(generalErrorHandler)
 

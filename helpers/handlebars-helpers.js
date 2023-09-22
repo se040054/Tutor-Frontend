@@ -13,6 +13,8 @@ const TSTTime = (time) => {
   return `${day} ${hourMin}`
 }
 
+const now = moment().format('YYYY-MM-DDTHH:mm')
+
 const api = `http://localhost:${process.env.API_PORT}/`
 
 const increment1 = (value) => {
@@ -24,5 +26,6 @@ module.exports = {
   defaultAvatar,
   TSTTime,
   api,
-  increment1
+  increment1,
+  now
 }

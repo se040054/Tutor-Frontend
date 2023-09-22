@@ -9,8 +9,11 @@
       </div>
     </form>
     {{#if search}}
-    <small>正在搜尋 : {{search}}</small>
-    <a href="/home"> 取消搜尋</a>
+    正在搜尋 :
+    <div class="badge bg-success text-wrap" >
+       {{search}}
+    </div>
+    <a href="/home"> <button class="btn btn-sm btn-secondary">取消搜尋</button></a>
     {{/if}}
     <div class="d-flex flex-wrap mb-3">
       {{!-- 這邊渲染每個教師 --}}

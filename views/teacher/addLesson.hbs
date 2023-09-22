@@ -1,0 +1,30 @@
+<h1 class="mb-5">新增課程</h1>
+<form action="/teachers/addLesson" method="post">
+
+  <div class="mb-5">
+    <h6>上課時長 : </h6>
+    <div class="input-group mb-3">
+      <input type="radio" class="btn-check" name="duration" id="option1" value="30" autocomplete="off" checked>
+      <label class="btn btn-outline-primary" for="option1" >30</label>
+      <input type="radio" class="btn-check" name="duration" id="option2" value="60" autocomplete="on">
+      <label class="btn btn-outline-primary" for="option2" >60</label>
+      <input type="radio" class="btn-check" name="duration" id="option3" value="90" autocomplete="off">
+      <label class="btn btn-outline-primary" for="option3" >90</label>
+      <input type="radio" class="btn-check" name="duration" id="option4" value="120" autocomplete="off">
+      <label class="btn btn-outline-primary" for="option4" >120</label>
+      <input type="radio" class="btn-check" name="duration" id="option5" value="150" autocomplete="off">
+      <label class="btn btn-outline-primary" for="option5" >150</label>
+      <input type="radio" class="btn-check" name="duration" id="option6" value="180" autocomplete="off">
+      <label class="btn btn-outline-primary" for="option6" >180</label>
+      <input type="radio" class="btn-check" name="duration" id="option7" value="210" autocomplete="off">
+      <label class="btn btn-outline-primary" for="option7" >210</label>
+    </div>
+  </div>
+
+  <div class="mb-5">
+    <h6>課程日期 : </h6>
+    <input type="datetime-local" class="form-control" aria-describedby="" name="daytime" id="daytime" min="{{now}}" value="{{now}}">
+  </div>
+  <button class="btn btn-primary" type="submit">增加課程</button>
+
+</form>

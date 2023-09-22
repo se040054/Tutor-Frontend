@@ -1,6 +1,6 @@
-const axios = require('axios')
-
 const moment = require('moment')
+require('moment-timezone').tz.setDefault('Asia/Taipei')
+const axios = require('axios')
 const instance = axios.create({
   baseURL: `http://localhost:${process.env.API_PORT}/api/`
 })
