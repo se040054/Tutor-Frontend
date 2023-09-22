@@ -11,6 +11,7 @@ router.get('/users/logout', authenticated, userController.logout)
 router.get('/users/applyTeacher', authenticated, userController.renderApplyTeacher)
 router.post('/users/applyTeacher', authenticated, userController.postApplyTeacher)
 
+router.get('/users/topLearningUsers')
 router.get('/users/:id', authenticated, userController.renderUser)
 router.get('/users/:id/editProfile', authenticated, userController.renderUserEdit)
 router.put('/users/:id', authenticated, userController.putUser)

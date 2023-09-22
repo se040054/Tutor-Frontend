@@ -13,8 +13,16 @@ const TSTTime = (time) => {
   return `${day} ${hourMin}`
 }
 
+const api = `http://localhost:${process.env.API_PORT}/`
+
+const increment1 = (value) => {
+  return Number(value) + 1
+}
+
 module.exports = {
   ifCond,
   defaultAvatar,
-  TSTTime
+  TSTTime,
+  api,
+  increment1
 }

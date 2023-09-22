@@ -1,1 +1,90 @@
-<p>Here is home</p>
+<div class="row">
+  <div class="container col-md-8 ">
+    {{!-- 搜尋欄 --}}
+    <form action="/home" method="get">
+      <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="搜索教師" aria-label="搜索教師" aria-describedby="search-button"
+          value="{{search}}" name="search">
+        <button class="btn btn-outline-secondary" type="submit" id="search-button">搜索</button>
+      </div>
+    </form>
+    {{#if search}}
+    <small>正在搜尋 : {{search}}</small>
+    <a href="/home"> 取消搜尋</a>
+    {{/if}}
+    <div class="d-flex flex-wrap mb-3">
+      {{!-- 這邊渲染每個教師 --}}
+      {{#each teachers}}
+      <div class="mt-5 mb-5 ms-4 me-4 col-md-3">
+        <a href="/teachers/{{this.id}}">
+          <div class="card">
+            <div class="row g-0">
+              <div class="col-md-6">
+                <img src="
+              {{#if this.avatar}}{{api}}{{this.avatar}}  
+               {{else}}{{defaultAvatar}}
+               {{/if}}" class="img-fluid rounded-start" alt="...">
+              </div>
+              <div class="col-md-6">
+                <div class="card-body">
+                  <h5 class="card-title">{{ this.User.name }}</h5>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p>{{ this.courseIntroduce }}</p>
+        </a>
+      </div>
+      {{/each}}
+      {{#unless teachers}}
+      <h1>找不到搜尋結果</h1>
+      {{/unless}}
+    </div>
+    {{!-- 分頁器 --}}
+    <nav class="mt-3" aria-label="page navigation">
+      <ul class="pagination">
+        <li class="page-item {{#ifCond pagination.currentPage 1}}disabled{{/ifCond}}">
+          <a class="page-link" href="/home?page={{pagination.prev}}&search={{search}}" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+          </a>
+        </li>
+        {{#each pagination.pages}}
+          {{#ifCond this ../pagination.currentPage}}
+          <li class="page-item active"><a class="page-link" href="/home?page={{this}}&search={{../search}}">{{this}}</a>
+          </li>
+          {{else}}
+          <li class="page-item">
+            <a class="page-link" href="/home?page={{this}}&search={{../search}}">{{this}}</a>
+          </li>
+          {{/ifCond}}
+        {{/each}}
+        <li class="page-item {{#ifCond pagination.currentPage pagination.totalPage}}disabled{{/ifCond}}">
+          <a class="page-link" href="/home?page={{pagination.next}}&search={{search}}" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+
+  <div class="container col-md-4">
+    <div class="container ">
+      <h3>學習時數排行</h3>
+      {{#each topLearningUsers}}
+      <div class="card mb-2" style="max-width: 220px;">
+        <div class="row g-0">
+          <div class="col-md-5">
+            <img src="{{defaultAvatar}}" class="img-fluid rounded-start" alt="...">
+          </div>
+          <div class="col-md-7">
+            <div class="card-body">
+              {{#if @first}} 🥇{{/if}} No.{{increment1 @index}}
+              <p class="card-text">{{this.name}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      {{/each}}
+    </div>
+  </div>
+</div>
