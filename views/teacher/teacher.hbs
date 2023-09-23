@@ -1,0 +1,62 @@
+<div class="container">
+
+  <div class="row">
+    <div class="col-md-7 m-5">
+
+      <div class="d-flex mb-5">
+        <img src="{{teacher.avatar}}" alt="" width="120px" height="120px" class="me-5">
+        <h2 class="mt-5"> {{teacher.User.name}} </h2>
+      </div>
+      <div class="mb-5">
+        <h3> 課程內容: </h3>
+        <p> {{teacher.courseIntroduce}} </p>
+      </div>
+      <div class="mb-5">
+        <h3> 教學風格: </h3>
+        <p> {{teacher.teachStyle}} </p>
+      </div>
+      <div class="mb-5">
+        <h3> 教學評價: </h3>
+        {{#each ratings}}
+        <div>
+          <small class="badge text-bg-warning fw-bold mb-3">{{this.score}} </small>
+          <span>{{this.text}}</span>
+        </div>
+        {{/each}}
+        {{#unless ratings}}尚未有評價紀錄 {{/unless}}
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="accordion accordion-flush" id="accordionFlushExample">
+        <div class="accordion-item mb-5">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed btn btn-warning  " type="button" data-bs-toggle="collapse"
+              data-bs-target="#flush-collapseOne" aria-expanded="true" aria-controls="flush-collapseOne">
+              可預約的課程:
+            </button>
+          </h2>
+          <div id="flush-collapseOne" class="accordion-collapse collapse">
+            <div class="accordion-body">
+              {{#each teacher.Lessons}}
+              <div class="card text-bg-light mb-3" style="width: 22rem;">
+                <div class="card-body">
+                  <h5 class="card-title">課程時間:{{TSTTime this.daytime}}</h5>
+                  <p class="card-text">上課時長:{{this.duration}} 分鐘
+                  <form action="/reserve/{{this.id}}" method="post">
+                    <button class="btn btn-success" type="submit">預約</button>
+                  </form>
+                  </p>
+                </div>
+              </div>
+              {{/each}}
+              {{#unless teacher.Lessons}}
+              尚未開放課程
+              {{/unless}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

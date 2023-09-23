@@ -1,6 +1,7 @@
 const moment = require('moment')
 require('moment-timezone').tz.setDefault('Asia/Taipei')
 const axios = require('axios')
+const { response } = require('express')
 const instance = axios.create({
   baseURL: `http://localhost:${process.env.API_PORT}/api/`
 })
@@ -23,7 +24,7 @@ const teacherController = {
       req.flash('error_messages', '創建時長不正確')
       return res.redirect('back')
     }
-    return instance.post('/teachers/addLesson',{
+    return instance.post('/teachers/addLesson', {
       duration, daytime
     }, { headers: { Authorization: `Bearer ${req.session.token}` } })
       .then(response => {
@@ -33,6 +34,21 @@ const teacherController = {
         }
       })
       .catch(err => next(err))
+  },
+  renderTeacher: (req, res, next) => {
+    instance.get(`/teachers/${req.params.id}`, {
+      headers: { Authorization: `Bearer ${req.session.token}` }
+    }).then(response => {
+      const { teacher, highestRatingLessons, lowestRatingLessons } = response.data.data
+      const ratings = []
+      highestRatingLessons.concat(lowestRatingLessons).forEach(lesson => {
+        ratings.push(lesson.Reserve.Rating)
+      })
+      const set = new Set()
+      let resultRatings = ratings.filter(rating => !set.has(rating.id) ? set.add(rating.id) : false)
+      resultRatings = resultRatings.sort((a, b) => b.score - a.score)
+      return res.render('teacher/teacher', { teacher, ratings: resultRatings })
+    }).catch(err => next(err))
   }
 }
 

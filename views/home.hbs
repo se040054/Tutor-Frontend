@@ -10,25 +10,25 @@
     </form>
     {{#if search}}
     正在搜尋 :
-    <div class="badge bg-success text-wrap" >
-       {{search}}
+    <div class="badge bg-success text-wrap">
+      {{search}}
     </div>
     <a href="/home"> <button class="btn btn-sm btn-secondary">取消搜尋</button></a>
     {{/if}}
-    <div class="d-flex flex-wrap mb-3">
+    <div class="row justify-content-between">
       {{!-- 這邊渲染每個教師 --}}
       {{#each teachers}}
-      <div class="mt-5 mb-5 ms-4 me-4 col-md-3">
+      <div class="mt-5 mb-5 me-3 ms-3 col-md-3">
         <a href="/teachers/{{this.id}}">
           <div class="card">
             <div class="row g-0">
-              <div class="col-md-6">
+              <div class="">
                 <img src="
-              {{#if this.avatar}}{{api}}{{this.avatar}}  
+              {{#if this.avatar}}{{this.avatar}}  
                {{else}}{{defaultAvatar}}
                {{/if}}" class="img-fluid rounded-start" alt="...">
               </div>
-              <div class="col-md-6">
+              <div class="">
                 <div class="card-body">
                   <h5 class="card-title">{{ this.User.name }}</h5>
                 </div>
@@ -44,14 +44,15 @@
       {{/unless}}
     </div>
     {{!-- 分頁器 --}}
-    <nav class="mt-3" aria-label="page navigation">
-      <ul class="pagination">
-        <li class="page-item {{#ifCond pagination.currentPage 1}}disabled{{/ifCond}}">
-          <a class="page-link" href="/home?page={{pagination.prev}}&search={{search}}" aria-label="Previous">
-            <span aria-hidden="true">&laquo;</span>
-          </a>
-        </li>
-        {{#each pagination.pages}}
+    <div class="d-flex justify-content-center mt-3">
+      <nav class="" aria-label="page navigation">
+        <ul class="pagination">
+          <li class="page-item {{#ifCond pagination.currentPage 1}}disabled{{/ifCond}}">
+            <a class="page-link" href="/home?page={{pagination.prev}}&search={{search}}" aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
+          {{#each pagination.pages}}
           {{#ifCond this ../pagination.currentPage}}
           <li class="page-item active"><a class="page-link" href="/home?page={{this}}&search={{../search}}">{{this}}</a>
           </li>
@@ -60,14 +61,16 @@
             <a class="page-link" href="/home?page={{this}}&search={{../search}}">{{this}}</a>
           </li>
           {{/ifCond}}
-        {{/each}}
-        <li class="page-item {{#ifCond pagination.currentPage pagination.totalPage}}disabled{{/ifCond}}">
-          <a class="page-link" href="/home?page={{pagination.next}}&search={{search}}" aria-label="Next">
-            <span aria-hidden="true">&raquo;</span>
-          </a>
-        </li>
-      </ul>
-    </nav>
+          {{/each}}
+          <li class="page-item {{#ifCond pagination.currentPage pagination.totalPage}}disabled{{/ifCond}}">
+            <a class="page-link" href="/home?page={{pagination.next}}&search={{search}}" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+
   </div>
 
   <div class="container col-md-4">
