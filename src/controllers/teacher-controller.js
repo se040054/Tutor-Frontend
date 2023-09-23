@@ -1,6 +1,7 @@
 const moment = require('moment')
 require('moment-timezone').tz.setDefault('Asia/Taipei')
 const axios = require('axios')
+const { response } = require('express')
 const instance = axios.create({
   baseURL: `http://localhost:${process.env.API_PORT}/api/`
 })
@@ -29,7 +30,7 @@ const teacherController = {
       .then(response => {
         if (response.status === 200) {
           req.flash('success_messages', '新增課程成功')
-          return res.redirect('/home') // (!) 以後記得改
+          return res.redirect('/teachers/me') // (!) 以後記得改
         }
       })
       .catch(err => next(err))
@@ -55,7 +56,6 @@ const teacherController = {
     })
       .then(response => {
         const { teacher } = response.data.data
-        console.log(teacher)
         const reserveLessons = []
         const lessonHistory = []
         const releaseLessons = []
@@ -71,6 +71,36 @@ const teacherController = {
         return res.render('teacher/me', { teacher, reserveLessons, lessonHistory, releaseLessons })
       })
       .catch(err => next(err))
+  },
+  renderTeacherEdit: (req, res, next) => {
+    return instance.get(`/teachers/${req.params.id}`, {
+      headers: { Authorization: `Bearer ${req.session.token}` }
+    })
+      .then(response => {
+        const teacher = response.data.data.teacher
+        return res.render('teacher/editProfile', { teacher })
+      })
+      .catch(err => next(err))
+  },
+  putTeacher: (req, res, next) => {
+    const { id } = req.params
+    const { courseIntroduce, teachStyle, courseUrl } = req.body
+    if (!courseIntroduce && !teachStyle && !courseUrl) {
+      req.flash('error_messages', '未進行任何修改')
+      return res.redirect('back')
+    }
+    instance.put(`/teachers/${id}`, {
+      courseIntroduce, teachStyle, courseUrl
+    }, {
+      headers: {
+        Authorization: `Bearer ${req.session.token}`
+      }
+    }).then(response => {
+      if (response.status === 200) {
+        req.flash('success_messages', '修改教師資料成功')
+        return res.redirect('/teachers/me')
+      }
+    }).catch(err => next(err))
   }
 }
 

@@ -1,0 +1,31 @@
+<h1 class="mb-5">編輯教師資料:</h1>
+
+<form action="/teachers/{{teacher.id}}?_method=PUT" method="post" >
+
+  <div class="mb-5">
+    <label class="form-label">
+      課程介紹:
+      <textarea class="form-control" name="courseIntroduce" rows="3" cols="80">{{teacher.courseIntroduce}}</textarea>
+    </label>
+  </div>
+
+  <div class="mb-5">
+    <label class="form-label">
+      課程內容:
+      <textarea class="form-control" name="teachStyle" rows="3" cols="80">{{teacher.teachStyle}}</textarea>
+    </label>
+  </div>
+
+  <div class="mb-5">
+    <label class="form-label">
+      上課連結:
+      <textarea class="form-control" name="courseUrl" rows="1" cols="80">{{teacher.courseUrl}}</textarea>
+    </label>
+  </div>
+
+  <div class="mb-5">
+    <button class="btn btn-warning" type="submit">編輯</button>
+    <button class="btn btn-secondary" type="reset" value="Reset">重設
+  </div>
+
+</form>

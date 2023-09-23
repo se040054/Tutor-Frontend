@@ -2,16 +2,16 @@
 
 <form action="/users/:id?_method=PUT" method="post">
   <div class="mb-5">
-    <label for="">
+    <label class="form-label" for="">
       名稱:
-      <input type="text" name="name" value="{{loginUser.name}}">
+      <input class="form-control" type="text" name="name" value="{{loginUser.name}}">
     </label>
   </div>
 
   <div class="mb-5">
-    <label for="">
+    <label class="form-label" for="">
       個人描述:
-      <textarea name="introduction" rows="10" cols="80" >{{loginUser.introduction}}</textarea>
+      <textarea class="form-control" name="introduction" rows="10" cols="80" >{{loginUser.introduction}}</textarea>
     </label>
   </div>
   <div class="mb-5">
