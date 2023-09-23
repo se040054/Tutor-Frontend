@@ -10,4 +10,3 @@ router.get('/teachers/me', authenticatedTeacher, teacherController.renderMe)
 router.get('/teachers/:id', authenticated, teacherController.renderTeacher)
 
 module.exports = router
-
