@@ -130,23 +130,26 @@ const userController = {
   renderUserEdit: (req, res) => {
     return res.render('user/editProfile')
   },
-  putUser: (req, res, next) => {
-    const { name, introduction } = req.body
-    if (!name || !introduction) {
-      req.flash('error_messages', '不能改為空白')
-      res.redirect('back')
+  putUser: async (req, res, next) => {
+    try {
+      const { name, introduction } = req.body
+      if (!name || !introduction) {
+        req.flash('error_messages', '不能改為空白')
+        res.redirect('back')
+      }
+      await instance.put(`/users/${req.session.user.id}`, {
+        name,
+        introduction
+      }, { headers: { Authorization: `Bearer ${req.session.token}` } })
+      const response = await instance.get('/users/me',
+        { headers: { Authorization: `Bearer ${req.session.token}` } })
+      req.session.user = response.data.data.user
+      req.flash('success_messages', '修改個人資料成功')
+      return res.redirect(`/users/${req.session.user.id}`)
+    } catch (err) {
+      console.log(err)
+      return next(err)
     }
-    return instance.put(`/users/${req.session.user.id}`, {
-      name,
-      introduction
-    }, { headers: { Authorization: `Bearer ${req.session.token}` } })
-      .then(response => {
-        console.log(response.status)
-        if (response.status === 200) {
-          req.flash('success_messages', '修改個人資料成功')
-          return res.redirect(`/users/${req.session.user.id}`)
-        }
-      }).catch(err => next(err))
   }
 }
 module.exports = userController
