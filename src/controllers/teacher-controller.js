@@ -1,7 +1,6 @@
 const moment = require('moment')
 require('moment-timezone').tz.setDefault('Asia/Taipei')
 const axios = require('axios')
-const { response } = require('express')
 const instance = axios.create({
   baseURL: `http://localhost:${process.env.API_PORT}/api/`
 })
@@ -49,6 +48,29 @@ const teacherController = {
       resultRatings = resultRatings.sort((a, b) => b.score - a.score)
       return res.render('teacher/teacher', { teacher, ratings: resultRatings })
     }).catch(err => next(err))
+  },
+  renderMe: (req, res, next) => {
+    return instance.get('/teachers/me', {
+      headers: { Authorization: `Bearer ${req.session.token}` }
+    })
+      .then(response => {
+        const { teacher } = response.data.data
+        console.log(teacher)
+        const reserveLessons = []
+        const lessonHistory = []
+        const releaseLessons = []
+        teacher.Lessons.forEach(lesson => {
+          if (lesson.isReserved && moment(lesson.daytime).isAfter(moment())) {
+            reserveLessons.push(lesson)
+          } else if (lesson.isReserved && moment(lesson.daytime).isBefore(moment())) {
+            lessonHistory.push(lesson)
+          } else {
+            releaseLessons.push(lesson)
+          }
+        })
+        return res.render('teacher/me', { teacher, reserveLessons, lessonHistory, releaseLessons })
+      })
+      .catch(err => next(err))
   }
 }
 
