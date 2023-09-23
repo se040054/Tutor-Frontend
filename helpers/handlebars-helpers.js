@@ -5,7 +5,7 @@ const ifCond = function (a, b, options) { // 不能用箭頭函式，否則this�
   return a === b ? options.fn(this) : options.inverse(this) // 注意這個this會指向ifCont
 }
 
-const defaultAvatar = '/images/avatar01.png'
+const defaultAvatar = '/images/avatar01.jpg'
 
 const TSTTime = (time) => {
   const day = moment(time).format('YYYY-MM-DD')
