@@ -3,7 +3,7 @@ module.exports = {
     if (err.response && (err.response.status === 400)) { // axios error
       req.flash('error_messages', `${err.response.data.message}`)
       console.log('第一層ERROR')
-    } else if (err instanceof Error) { // 手動觸發的Error
+    } else if (err instanceof Error) { // api手動觸發的Error
       req.flash('error_messages', `${err.message} ,${err.response.data.message}`)
       console.log('第二層ERROR')
     } else { // 未預期錯誤

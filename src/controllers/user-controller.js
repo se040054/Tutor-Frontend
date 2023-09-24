@@ -125,7 +125,10 @@ const userController = {
       const lessonHistoryReserves =
         Reserves.filter(reserve => moment(reserve.Lesson.daytime).isSameOrBefore(moment()))
       return res.render('user/profile', { user, userRanking, scheduleReserves, lessonHistoryReserves })
-    }).catch(err => next(err))
+    }).catch(err => {
+      console.log(err)
+      return next(err)
+    })
   },
   renderUserEdit: (req, res) => {
     return res.render('user/editProfile')
@@ -150,6 +153,19 @@ const userController = {
       console.log(err)
       return next(err)
     }
+  },
+  postLesson: (req, res, next) => {
+    return instance.post(`/reserve/${req.params.lessonId}`, {},
+      { headers: { Authorization: `Bearer ${req.session.token}` } })
+      .then(response => {
+        if (response.status === 200) {
+          const { reserve, lesson } = response.data.data
+          return res.render('user/reserveSuccess', { reserve, lesson })
+        }
+      })
+      .catch(err => {
+        return next(err)
+      })
   }
 }
 module.exports = userController
