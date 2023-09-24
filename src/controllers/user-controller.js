@@ -187,6 +187,14 @@ const userController = {
   postRating: (req, res, next) => {
     const { reserveId } = req.params
     const { score, text } = req.body
+    if (!score || !text) {
+      req.flash('error_messages', '評分留言不能空白')
+      res.redirect('back')
+    }
+    if (score > 5 || score < 1) {
+      req.flash('error_messages', '評分只能1~5分')
+      res.redirect('back')
+    }
     return instance.post(`/rating/${reserveId}`, {
       score, text
     }, { headers: { Authorization: `Bearer ${req.session.token}` } })
