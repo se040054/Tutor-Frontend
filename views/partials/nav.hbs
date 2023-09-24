@@ -1,22 +1,25 @@
-<nav class="navbar navbar-expand-lg  bg-dark"  data-bs-theme="dark">
+<nav class="navbar navbar-expand-lg  bg-dark" data-bs-theme="dark">
   <div class="container-fluid">
     <a class="navbar-brand" href="/home">Tutor</a>
 
     <a class="navbar-brand ms-5 me-5" href="/home">首頁</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         {{#if loginUser}}
-        <li class="nav-item  ms-5 me-4" >
+        <li class="nav-item  ms-5 me-4">
           <a class="nav-link active" aria-current="page" href="/users/{{loginUser.id}}">
-          <img class="m-0 " src="{{loginUser.avatar}}" alt="" width="25px" height="25px">
-          {{#if loginUser.name}}
-          {{loginUser.name}}
-          {{else}}
-          使用者頁面
-          {{/if}}
+            <img class="m-0 " src="{{loginUser.avatar}}   
+             {{#unless loginUser.avatar}} {{defaultAvatar}} {{/unless}}"
+              alt="" width="25px" height="25px">
+            {{#if loginUser.name}}
+            {{loginUser.name}}
+            {{else}}
+            使用者頁面
+            {{/if}}
           </a>
         </li>
         {{#if loginUser.isTeacher}}

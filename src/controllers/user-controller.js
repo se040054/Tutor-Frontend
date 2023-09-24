@@ -84,7 +84,7 @@ const userController = {
     }
     return res.render('user/applyTeacher')
   },
-  postApplyTeacher: (req, res, next) => {
+  postApplyTeacher: async (req, res, next) => {
     if (req.session.user.isTeacher) {
       req.flash('error_messages', '你已經是教師了')
       return res.redirect('back')
@@ -94,20 +94,21 @@ const userController = {
       req.flash('error_messages', '有資料未填寫')
       return res.redirect('back')
     }
-    instance.post('/users/applyTeacher', {
-      courseIntroduce,
-      courseUrl,
-      teachStyle
-    }, { headers: { Authorization: `Bearer ${req.session.token}` } }) // Bearer 跟 token 中間有一個空格
-      .then(response => {
-        if (response.status === 200) {
-          req.flash('success_messages', '已成為教師!')
-          return res.redirect('/home')
-        }
-        req.flash('error_messages', '申請成為教師失敗!')
-        return res.redirect('/home')
-      })
-      .catch(err => next(err))
+    try {
+      await instance.post('/users/applyTeacher', {
+        courseIntroduce,
+        courseUrl,
+        teachStyle
+      }, { headers: { Authorization: `Bearer ${req.session.token}` } }) // Bearer 跟 token 中間有一個空格
+      const response = await instance.get('/users/me',
+        { headers: { Authorization: `Bearer ${req.session.token}` } })
+      req.session.user = response.data.data.user
+      req.flash('success_messages', '申請教師資格成功')
+      return res.redirect('/home')
+    } catch (err) {
+      console.log(err)
+      return next(err)
+    }
   },
   renderUser: (req, res, next) => {
     const { id } = req.params
@@ -119,7 +120,6 @@ const userController = {
         req.flash('error_messages', '僅能查看自己的頁面')
         return res.redirect('back')
       }
-
       const Reserves = user.Reserves
       const scheduleReserves =
         Reserves.filter(reserve => moment(reserve.Lesson.daytime).isSameOrAfter(moment()))
