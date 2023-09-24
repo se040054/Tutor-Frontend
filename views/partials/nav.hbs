@@ -13,8 +13,7 @@
         <li class="nav-item  ms-5 me-4">
           <a class="nav-link active" aria-current="page" href="/users/{{loginUser.id}}">
             <img class="m-0 " src="{{loginUser.avatar}}   
-             {{#unless loginUser.avatar}} {{defaultAvatar}} {{/unless}}"
-              alt="" width="25px" height="25px">
+             {{#unless loginUser.avatar}} {{defaultAvatar}} {{/unless}}" alt="" width="25px" height="25px">
             {{#if loginUser.name}}
             {{loginUser.name}}
             {{else}}
@@ -34,6 +33,11 @@
           <a class="nav-link active" aria-current="page" href="/users/applyTeacher">成為教師</a>
         </li>
         {{/if}}
+        {{#if loginUser.isAdmin}}
+        <li class="nav-item  ms-4 me-4">
+          <a class="nav-link active" aria-current="page" href="/admin/users">管理者頁面</a>
+        </li>
+        {{/if}}
         <li class="nav-item ms-5 me-3">
           <a class="nav-link" href="/users/logout">登出</a>
         </li>
@@ -45,9 +49,6 @@
           <a class="nav-link active" aria-current="page" href="/users/register">註冊</a>
         </li>
         {{/if}}
-        <li class="nav-item  ms-4 me-4">
-          <a href="/dev_home">dev</a>
-        </li>
       </ul>
     </div>
   </div>

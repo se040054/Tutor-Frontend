@@ -1,0 +1,74 @@
+<div class="row">
+  <div class="container col-md-8 ">
+    {{!-- 搜尋欄 --}}
+    <form action="/admin/users" method="get">
+      <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="搜索使用者" aria-label="搜索使用者" aria-describedby="search-button"
+          value="{{search}}" name="search">
+        <button class="btn btn-outline-secondary" type="submit" id="search-button">搜索</button>
+      </div>
+    </form>
+    {{#if search}}
+    正在搜尋 :
+    <div class="badge bg-success text-wrap">
+      {{search}}
+    </div>
+    <a href="/admin/users"> <button class="btn btn-sm btn-secondary">取消搜尋</button></a>
+    {{/if}}
+    <div class="row justify-content-between">
+      {{!-- 這邊渲染每個使用者 --}}
+      <table class="table table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">名字</th>
+            <th scope="col">教師身分</th>
+            <th scope="col">管理者</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each users}}
+          <tr>
+            <th scope="row">{{this.id}}</th>
+            <td>{{this.name}}</td>
+            <td> {{#if this.isTeacher}} 是 {{else}} 否 {{/if}} </td>
+            <td>{{#if this.isAdmin}} 是 {{else}} 否 {{/if}}</td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+
+      {{#unless users}}
+      <h1>找不到搜尋結果</h1>
+      {{/unless}}
+    </div>
+    {{!-- 分頁器 --}}
+    <div class="d-flex justify-content-center mt-3">
+      <nav class="" aria-label="page navigation">
+        <ul class="pagination">
+          <li class="page-item {{#ifCond pagination.currentPage 1}}disabled{{/ifCond}}">
+            <a class="page-link" href="/admin/users?page={{pagination.prev}}&search={{search}}" aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
+          {{#each pagination.pages}}
+          {{#ifCond this ../pagination.currentPage}}
+          <li class="page-item active"><a class="page-link"
+              href="/admin/users?page={{this}}&search={{../search}}">{{this}}</a>
+          </li>
+          {{else}}
+          <li class="page-item">
+            <a class="page-link" href="/admin/users?page={{this}}&search={{../search}}">{{this}}</a>
+          </li>
+          {{/ifCond}}
+          {{/each}}
+          <li class="page-item {{#ifCond pagination.currentPage pagination.totalPage}}disabled{{/ifCond}}">
+            <a class="page-link" href="/admin/users?page={{pagination.next}}&search={{search}}" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</div>
