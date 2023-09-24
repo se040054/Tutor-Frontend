@@ -101,6 +101,16 @@ const teacherController = {
         return res.redirect('/teachers/me')
       }
     }).catch(err => next(err))
+  },
+  deleteLesson: (req, res, next) => {
+    return instance.delete(`/lessons/${req.params.id}`, {
+      headers: { Authorization: `Bearer ${req.session.token}` }
+    }).then(response => {
+      if (response.status === 200) {
+        req.flash('success_messages', '刪除課程成功')
+        return res.redirect('/teachers/me')
+      }
+    }).catch(err => next(err))
   }
 }
 
