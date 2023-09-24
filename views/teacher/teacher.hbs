@@ -44,7 +44,9 @@
                   <h5 class="card-title">課程時間:{{TSTTime this.daytime}}</h5>
                   <p class="card-text">上課時長:{{this.duration}} 分鐘
                   <form action="/reserve/{{this.id}}" method="post">
-                    <button class="btn btn-success" type="submit">預約</button>
+                    <button class="btn btn-success" type="submit" 
+                    onclick="return confirm(`預約課程 \n 課程時間:  {{TSTTime this.daytime}} \n 課程時長:  {{this.duration}} 分鐘 \n `)"
+                    >預約</button>
                   </form>
                   </p>
                 </div>

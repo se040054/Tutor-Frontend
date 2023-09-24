@@ -76,7 +76,7 @@
                   <h5 class="card-title">時間:{{TSTTime this.daytime}}</h5>
                   <p class="card-text">時長:{{this.duration}} 分鐘</p>
                   <form action="/lessons/{{this.id}}?_method=DELETE" method="post">
-                    <button class="btn btn-danger" type="submit" onclick="return confirm(`確定要刪除此課程嗎? \n 課程時間:  {{this.daytime}} \n 課程時長:  {{this.duration}} \n `)">刪除</button>
+                    <button class="btn btn-danger" type="submit" onclick="return confirm(`確定要刪除此課程嗎? \n 課程時間:  {{TSTTime this.daytime}} \n 課程時長:  {{this.duration}} 分鐘 \n `)">刪除</button>
                   </form>
                 </div>
               </div>
