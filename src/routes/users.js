@@ -18,4 +18,8 @@ router.put('/users/:id', authenticated, userController.putUser)
 
 router.post('/reserve/:lessonId', authenticated, userController.postLesson)
 router.delete('/reserve/:lessonId', authenticated, userController.deleteReserve)
+
+router.get('/rating/:reserveId', authenticated, userController.renderRatingForm)
+router.post('/rating/:reserveId', authenticated, userController.postRating)
+
 module.exports = router

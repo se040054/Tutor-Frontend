@@ -1,0 +1,23 @@
+<div>
+  <h3 class="mb-5">評價課程:</h3>
+
+  <form action="/rating/{{reserveId}}" method="post">
+
+    <div class="mb-3">
+      <label for="score" class="form-label">分數 :
+        <input type="number" class="form-control" aria-describedby="emailHelp" name="score" id="score" min=1 max=5
+          step="0.1">
+      </label>
+    </div>
+
+    <div class="mb-3">
+      <label for="text" class="form-label">留言 :
+        <input type="text" class="form-control" aria-describedby="emailHelp" name="text" id="text">
+      </label>
+    </div>
+
+    <button class="btn btn-warning" type="submit">送出評價</button>
+  </form>
+
+
+</div>

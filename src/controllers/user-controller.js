@@ -180,6 +180,24 @@ const userController = {
       .catch(err => {
         return next(err)
       })
+  },
+  renderRatingForm: (req, res) => {
+    return res.render('user/rating', { reserveId: req.params.reserveId })
+  },
+  postRating: (req, res, next) => {
+    const { reserveId } = req.params
+    const { score, text } = req.body
+    return instance.post(`/rating/${reserveId}`, {
+      score, text
+    }, { headers: { Authorization: `Bearer ${req.session.token}` } })
+      .then(response => {
+        if (response.status === 200) {
+          const { user } = response.data.data
+          req.flash('success_messages', '評價成功')
+          return res.redirect(`/users/${user.id}`)
+        }
+      })
+      .catch(err => next(err))
   }
 }
 module.exports = userController

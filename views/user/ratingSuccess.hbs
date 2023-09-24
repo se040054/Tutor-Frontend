@@ -1,0 +1,31 @@
+<div class="m-5">
+
+  <h2>
+    評價成功 !
+  </h2>
+
+  <div class="mt-5 mb-3">
+    <div class="card card-body mb-5">
+      時間 : {{TSTTime lesson.daytime}}
+    </div>
+
+    <div class="card card-body mb-5">
+      時長 : {{ lesson.duration}} 分鐘
+    </div>
+
+    <div class="card card-body mb-5">
+      老師 : {{lesson.Teacher.User.name}}
+    </div>
+
+    <div class="card card-body mb-5">
+      上課連結: {{lesson.Teacher.courseUrl}}
+    </div>
+
+    <a href="/user/{{reserve.userId}}">
+      <button class="btn btn-primary">
+        返回我的頁面
+      </button>
+    </a>
+
+  </div>
+</div>
