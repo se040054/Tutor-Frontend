@@ -4,7 +4,8 @@
     <div class="col-md-7 m-5">
 
       <div class="d-flex mb-5">
-        <img src="{{teacher.avatar}}" alt="" width="120px" height="120px" class="me-5">
+        <img src="{{teacher.User.avatar}} {{#unless teacher.User.avatar}} {{defaultAvatar}} {{/unless}}" 
+        alt="" width="120px" height="120px" class="me-5">
         <h2 class="mt-5"> {{teacher.User.name}} </h2>
       </div>
       <div class="mb-5">

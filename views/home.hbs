@@ -24,7 +24,7 @@
             <div class="row g-0">
               <div class="">
                 <img src="
-              {{#if this.avatar}}{{this.avatar}}  
+              {{#if this.User.avatar}}{{this.User.avatar}}  
                {{else}}{{defaultAvatar}}
                {{/if}}" class="img-fluid rounded-start" alt="...">
               </div>
@@ -77,10 +77,11 @@
     <div class="container ">
       <h3>學習時數排行</h3>
       {{#each topLearningUsers}}
-      <div class="card mb-2" style="max-width: 220px;">
+      <div class="card mb-2" style="max-width: 400px;">
         <div class="row g-0">
           <div class="col-md-5">
-            <img src="{{defaultAvatar}}" class="img-fluid rounded-start" alt="...">
+            <img src="{{this.avatar}} {{#unless this.avatar}} {{defaultAvatar}} {{/unless}}"
+              class="img-fluid rounded-start" alt="...">
           </div>
           <div class="col-md-7">
             <div class="card-body">
