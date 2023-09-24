@@ -33,6 +33,10 @@
                   <h5 class="card-title">時間:{{TSTTime this.Lesson.daytime}}</h5>
                   <h6 class="card-subtitle mb-2 text-body-secondary">老師:{{this.Lesson.Teacher.User.name}}</h6>
                   <p class="card-text">上課連結:{{this.Lesson.Teacher.courseUrl}} </p>
+                  <form action="/reserve/{{this.Lesson.id}}?_method=DELETE" method="post">
+                    <button class="btn btn-danger" type="submit"
+                      onclick="return confirm(`確定要刪除此課程嗎? \n 課程時間:  {{TSTTime this.Lesson.daytime}} \n 課程時長:  {{this.Lesson.duration}} 分鐘 \n `)">刪除</button>
+                  </form>
                 </div>
               </div>
               {{/each}}

@@ -17,5 +17,5 @@ router.get('/users/:id/editProfile', authenticated, userController.renderUserEdi
 router.put('/users/:id', authenticated, userController.putUser)
 
 router.post('/reserve/:lessonId', authenticated, userController.postLesson)
-
+router.delete('/reserve/:lessonId', authenticated, userController.deleteReserve)
 module.exports = router

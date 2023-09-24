@@ -1,6 +1,7 @@
 const moment = require('moment')
 require('moment-timezone').tz.setDefault('Asia/Taipei')
 const axios = require('axios')
+const { response } = require('express')
 const instance = axios.create({
   baseURL: `http://localhost:${process.env.API_PORT}/api/`
 })
@@ -161,6 +162,19 @@ const userController = {
         if (response.status === 200) {
           const { reserve, lesson } = response.data.data
           return res.render('user/reserveSuccess', { reserve, lesson })
+        }
+      })
+      .catch(err => {
+        return next(err)
+      })
+  },
+  deleteReserve: (req, res, next) => {
+    return instance.delete(`/reserve/${req.params.lessonId}`,
+      { headers: { Authorization: `Bearer ${req.session.token}` } })
+      .then(response => {
+        if (response.status === 200) {
+          req.flash('success_messages', '刪除預約成功')
+          return res.redirect('back')
         }
       })
       .catch(err => {
