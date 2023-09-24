@@ -24,7 +24,7 @@ const teacherController = {
       req.flash('error_messages', '創建時長不正確')
       return res.redirect('back')
     }
-    return instance.post('/teachers/addLesson', {
+    return instance.post('/lessons', {
       duration, daytime
     }, { headers: { Authorization: `Bearer ${req.session.token}` } })
       .then(response => {
