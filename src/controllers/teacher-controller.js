@@ -38,7 +38,7 @@ const teacherController = {
     instance.get(`/teachers/${req.params.id}`, {
       headers: { Authorization: `Bearer ${req.session.token}` }
     }).then(response => {
-      const { teacher, highestRatingLessons, lowestRatingLessons } = response.data.data
+      const { teacher, highestRatingLessons, lowestRatingLessons, avgRating } = response.data.data
       const ratings = []
       highestRatingLessons.concat(lowestRatingLessons).forEach(lesson => {
         ratings.push(lesson.Reserve.Rating)
@@ -46,7 +46,8 @@ const teacherController = {
       const set = new Set()
       let resultRatings = ratings.filter(rating => !set.has(rating.id) ? set.add(rating.id) : false)
       resultRatings = resultRatings.sort((a, b) => b.score - a.score)
-      return res.render('teacher/teacher', { teacher, ratings: resultRatings })
+      const rating = parseFloat(avgRating.avgRating.toFixed(2))
+      return res.render('teacher/teacher', { teacher, ratings: resultRatings, avgRating: rating })
     }).catch(err => next(err))
   },
   renderMe: (req, res, next) => {

@@ -7,7 +7,9 @@
         <img src="{{teacher.User.avatar}} {{#unless teacher.User.avatar}} {{defaultAvatar}} {{/unless}}" 
         alt="" width="120px" height="120px" class="me-5">
         <h2 class="mt-5"> {{teacher.User.name}} </h2>
+        
       </div>
+      <p> ⭐ 平均評價: {{avgRating}}</p>
       <div class="mb-5">
         <h3> 課程內容: </h3>
         <p> {{teacher.courseIntroduce}} </p>
@@ -20,6 +22,7 @@
         <h3> 教學評價: </h3>
         {{#each ratings}}
         <div>
+           ⭐ 
           <small class="badge text-bg-warning fw-bold mb-3">{{this.score}} </small>
           <span class="text-decoration-underline">{{this.text}}</span>
         </div>
