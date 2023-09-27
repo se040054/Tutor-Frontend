@@ -1,7 +1,8 @@
 const moment = require('moment')
 require('moment-timezone').tz.setDefault('Asia/Taipei')
 const axios = require('axios')
-const { response } = require('express')
+const fs = require('fs')
+
 const instance = axios.create({
   baseURL: `http://localhost:${process.env.API_PORT}/api/`
 })
@@ -136,19 +137,36 @@ const userController = {
   },
   putUser: async (req, res, next) => {
     try {
-      const { name, introduction } = req.body
-      if (!name || !introduction) {
-        req.flash('error_messages', '不能改為空白')
-        res.redirect('back')
+      const { email, name, introduction, password, confirmPassword } = req.body
+      if (!email && !name && !introduction && !password && !confirmPassword) {
+        req.flash('error_messages', '未進行任何修改')
+        return res.redirect('back')
       }
-      await instance.put(`/users/${req.session.user.id}`, {
-        name,
-        introduction
-      }, { headers: { Authorization: `Bearer ${req.session.token}` } })
+      if (password !== confirmPassword) {
+        req.flash('error_messages', '密碼不一致')
+        return res.redirect('back')
+      }
+      const formData = new FormData()
+      if (name) formData.append('name', name)
+      if (email) formData.append('email', email)
+      if (introduction) formData.append('introduction', introduction)
+      if (password) {
+        formData.append('password', password)
+        formData.append('confirmPassword', confirmPassword)
+      }
+      await instance.put(`/users/${req.session.user.id}`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${req.session.token}`
+        }
+      })
       const response = await instance.get('/users/me',
-        { headers: { Authorization: `Bearer ${req.session.token}` } })
+        {
+          headers: { Authorization: `Bearer ${req.session.token}` }
+        })
       req.session.user = response.data.data.user
       req.flash('success_messages', '修改個人資料成功')
+      console.log(response)
       return res.redirect(`/users/${req.session.user.id}`)
     } catch (err) {
       console.log(err)

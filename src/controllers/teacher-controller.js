@@ -46,7 +46,7 @@ const teacherController = {
       const set = new Set()
       let resultRatings = ratings.filter(rating => !set.has(rating.id) ? set.add(rating.id) : false)
       resultRatings = resultRatings.sort((a, b) => b.score - a.score)
-      const rating = parseFloat(avgRating.avgRating.toFixed(2))
+      const rating = parseFloat(avgRating.avgRating.toFixed(2)) // 去尾數0
       return res.render('teacher/teacher', { teacher, ratings: resultRatings, avgRating: rating })
     }).catch(err => next(err))
   },

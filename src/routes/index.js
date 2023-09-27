@@ -8,7 +8,7 @@ const teachers = require('./teachers')
 const admin = require('./admin')
 const { generalErrorHandler } = require('../middleware/error-handler')
 
-router.get('/', (req, res) => res.redirect('/home'))
+router.get('/', (req, res) => res.redirect('/users/login'))
 
 router.use(users)
 router.use(auth)
@@ -17,7 +17,5 @@ router.use(teachers)
 router.use(admin)
 
 router.use(generalErrorHandler)
-
-// router.use('/', (req, res) => res.redirect('/home'))
 
 module.exports = router

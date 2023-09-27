@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const userController = require('../controllers/user-controller')
 const { authenticated } = require('../middleware/auth-handler')
+const upload = require('../middleware/multer')
 
 router.get('/users/register', userController.renderRegister)
 router.post('/users/register', userController.postRegister)
@@ -14,7 +15,7 @@ router.post('/users/applyTeacher', authenticated, userController.postApplyTeache
 router.get('/users/topLearningUsers')
 router.get('/users/:id', authenticated, userController.renderUser)
 router.get('/users/:id/editProfile', authenticated, userController.renderUserEdit)
-router.put('/users/:id', authenticated, userController.putUser)
+router.put('/users/:id', upload.single('image'), authenticated, userController.putUser)
 
 router.post('/reserve/:lessonId', authenticated, userController.postLesson)
 router.delete('/reserve/:lessonId', authenticated, userController.deleteReserve)

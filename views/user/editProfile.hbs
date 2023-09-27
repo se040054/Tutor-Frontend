@@ -1,6 +1,21 @@
 <h1 class="mb-5">編輯個人資料:</h1>
 
-<form action="/users/:id?_method=PUT" method="post">
+<form action="/users/:id?_method=PUT" method="post" enctype="multipart/form-data">
+
+  <div class="mb-5">
+    <label class="form-label" for="">
+      頭像:
+      <input class="form-control" type="file" name="image">
+    </label>
+  </div>
+
+  <div class="mb-5">
+    <label class="form-label" for="">
+      信箱:
+      <input class="form-control" type="text" name="email" value="{{loginUser.email}}">
+    </label>
+  </div>
+
   <div class="mb-5">
     <label class="form-label" for="">
       名稱:
@@ -11,12 +26,28 @@
   <div class="mb-5">
     <label class="form-label" for="">
       個人描述:
-      <textarea class="form-control" name="introduction" rows="10" cols="80" >{{loginUser.introduction}}</textarea>
+      <textarea class="form-control" name="introduction" rows="10" cols="80">{{loginUser.introduction}}</textarea>
     </label>
   </div>
+
+  <div class="mb-5">
+    <label class="form-label" for="">
+      密碼:
+      <input class="form-control" type="text" name="password">
+    </label>
+  </div>
+
+  <div class="mb-5">
+    <label class="form-label" for="">
+      確認密碼:
+      <input class="form-control" type="text" name="confirmPassword">
+    </label>
+  </div>
+
   <div class="mb-5">
     <button class="btn btn-warning" type="submit">編輯</button>
     <button class="btn btn-secondary" type="reset" value="Reset">重設
   </div>
 
 </form>
+
