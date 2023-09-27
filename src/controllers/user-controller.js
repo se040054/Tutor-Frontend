@@ -137,39 +137,41 @@ const userController = {
   },
   putUser: async (req, res, next) => {
     try {
-      const { email, name, introduction, password, confirmPassword } = req.body
-      if (!email && !name && !introduction && !password && !confirmPassword) {
-        req.flash('error_messages', '未進行任何修改')
-        return res.redirect('back')
-      }
-      if (password !== confirmPassword) {
-        req.flash('error_messages', '密碼不一致')
-        return res.redirect('back')
-      }
-      const formData = new FormData()
-      if (name) formData.append('name', name)
-      if (email) formData.append('email', email)
-      if (introduction) formData.append('introduction', introduction)
-      if (password) {
-        formData.append('password', password)
-        formData.append('confirmPassword', confirmPassword)
-      }
-      await instance.put(`/users/${req.session.user.id}`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          Authorization: `Bearer ${req.session.token}`
+      if (req.file) {
+        req.flash('success_messages', '修改頭像成功')
+      } else {
+        const { email, name, introduction, password, confirmPassword } = req.body
+        if (!email && !name && !introduction && !password && !confirmPassword) {
+          req.flash('error_messages', '未進行任何修改')
+          return res.redirect('back')
         }
-      })
+        if (password !== confirmPassword) {
+          req.flash('error_messages', '密碼不一致')
+          return res.redirect('back')
+        }
+        const formData = new FormData()
+        if (name) formData.append('name', name)
+        if (email) formData.append('email', email)
+        if (introduction) formData.append('introduction', introduction)
+        if (password) {
+          formData.append('password', password)
+          formData.append('confirmPassword', confirmPassword)
+        }
+        await instance.put(`/users/${req.session.user.id}`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            Authorization: `Bearer ${req.session.token}`
+          }
+        })
+        req.flash('success_messages', '修改個人資料成功')
+      }
       const response = await instance.get('/users/me',
         {
           headers: { Authorization: `Bearer ${req.session.token}` }
         })
       req.session.user = response.data.data.user
-      req.flash('success_messages', '修改個人資料成功')
-      console.log(response)
       return res.redirect(`/users/${req.session.user.id}`)
     } catch (err) {
-      console.log(err)
       return next(err)
     }
   },

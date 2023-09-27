@@ -5,6 +5,7 @@ const authenticated = (req, res, next) => {
     return res.redirect('/users/login')
   }
   res.locals.loginUser = req.session.user // 給模板用
+  res.locals.token = req.session.token
   next()
 }
 const authenticatedTeacher = (req, res, next) => {
@@ -18,6 +19,7 @@ const authenticatedTeacher = (req, res, next) => {
     return res.redirect('back')
   }
   res.locals.loginUser = req.session.user // 給模板用
+  res.locals.token = req.session.token
   next()
 }
 
@@ -32,6 +34,7 @@ const authenticatedAdmin = (req, res, next) => {
     return res.redirect('back')
   }
   res.locals.loginUser = req.session.user // 給模板用
+  res.locals.token = req.session.token
   next()
 }
 

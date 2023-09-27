@@ -1,14 +1,20 @@
 <h1 class="mb-5">編輯個人資料:</h1>
 
-<form action="/users/:id?_method=PUT" method="post" enctype="multipart/form-data">
+<div class="mb-3 bt-3">
+  <form id="avatar-form" action="/users/{{loginUser.id}}?_method=PUT" method="post" enctype="multipart/form-data">
+    <div class="mb-5">
+      <label class="form-label" for="">
+        頭像:
+        <input class="form-control" type="file" id="file" name="image" accept="image/*">
+      </label>
+    </div>
+    <button class="btn btn-warning" type="submit">更改頭像</button>
+  </form>
+</div>
 
-  <div class="mb-5">
-    <label class="form-label" for="">
-      頭像:
-      <input class="form-control" type="file" name="image">
-    </label>
-  </div>
 
+
+<form action="/users/{{loginUser.id}}?_method=PUT" method="post" enctype="multipart/form-data">
   <div class="mb-5">
     <label class="form-label" for="">
       信箱:
@@ -51,3 +57,29 @@
 
 </form>
 
+<p id="token" style="display:none">{{token}}</p>
+<p id="user-id" style="display:none">{{loginUser.id}}</p>
+
+<script>
+  const token = document.querySelector('#token').innerText
+  const userId = document.querySelector('#user-id').innerText
+  console.log(token, userId)
+  const avatarForm = document.querySelector('#avatar-form')
+  avatarForm.addEventListener('submit', function (event) {
+    event.preventDefault()
+    event.stopPropagation()
+    let formData = new FormData()
+    let imageFile = document.querySelector('#file').files[0]
+    formData.append('image', imageFile)
+    return axios.put(`http://localhost:3000/api/users/${userId}`, formData, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }).then(function (response) {
+        return avatarForm.submit()
+    }).catch(function (error) {
+      console.log(error)
+      return alert('上傳失敗 ， 請檢查檔案格式是否為jpg,jpeg,png')
+    })
+  })
+</script>
