@@ -8,7 +8,7 @@ https://github.com/se040054/Tutor-API
 
 1.
 ```
-$ cd /Tutor-frontend
+$ cd ...
 
 ```
 2.
