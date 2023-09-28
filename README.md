@@ -35,6 +35,17 @@ npm run start
 ```
 If you see http://localhost:3001 in the command prompt, it means it was successful. 
 
+---
+
+#### if you need Google OAuth login , add
+```
+GOOGLE_CLIENT_ID= 
+GOOGLE_CLIENT_SECRET= 
+```
+
+to your .env
+
+
 
 
 
