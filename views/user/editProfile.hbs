@@ -8,7 +8,7 @@
         <input class="form-control" type="file" id="file" name="image" accept="image/*">
       </label>
     </div>
-    <button class="btn btn-warning" type="submit">更改頭像</button>
+    <button class="btn  btn-warning" type="submit">更改頭像</button>
   </form>
 </div>
 
@@ -61,6 +61,7 @@
 <p id="user-id" style="display:none">{{loginUser.id}}</p>
 
 <script>
+  const API_URL = 'http://localhost:3000/api/users/'
   const token = document.querySelector('#token').innerText
   const userId = document.querySelector('#user-id').innerText
   console.log(token, userId)
@@ -71,7 +72,7 @@
     let formData = new FormData()
     let imageFile = document.querySelector('#file').files[0]
     formData.append('image', imageFile)
-    return axios.put(`http://localhost:3000/api/users/${userId}`, formData, {
+    return axios.put(API_URL+userId, formData, { // 網址
       headers: {
         Authorization: `Bearer ${token}`
       }

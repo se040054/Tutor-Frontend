@@ -1,4 +1,10 @@
-require('dotenv').config({ path: './environment/dev/.env' })
+if (process.env.NODE_ENV === 'production') {
+  require('dotenv').config({ path: './environment/prod/.env' })
+}
+
+if (process.env.NODE_ENV === 'development') {
+  require('dotenv').config({ path: './environment/dev/.env' })
+}
 
 const express = require('express')
 const app = express()
@@ -7,7 +13,6 @@ const handlebarsHelpers = require('./helpers/handlebars-helpers')
 const methodOverride = require('method-override')
 app.use(methodOverride('_method'))
 app.engine('hbs', engine({ extname: '.hbs', helpers: handlebarsHelpers }))
-const port = process.env.PORT
 
 const flash = require('connect-flash')
 const session = require('express-session')
@@ -33,6 +38,7 @@ app.use(messageHandler)
 
 app.use(pages)
 
-app.listen(port, () => {
-  console.info(`http://localhost:${port}`)
+app.listen(process.env.port, () => {
+  console.log(`目前為:${process.env.NODE_ENV} 環境`)
+  console.info(`http://localhost:${process.env.port}`)
 })

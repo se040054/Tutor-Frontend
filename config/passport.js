@@ -5,7 +5,7 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy
 const axios = require('axios')
 
 const instance = axios.create({
-  baseURL: `http://localhost:${process.env.API_PORT}/api/`
+  baseURL: `${process.env.API_BASE_URL}:${process.env.API_PORT}/api/`
 })
 
 passport.use(new GoogleStrategy({

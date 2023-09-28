@@ -1,6 +1,6 @@
 const axios = require('axios')
 const instance = axios.create({
-  baseURL: `http://localhost:${process.env.API_PORT}/api/`
+  baseURL: `${process.env.API_BASE_URL}:${process.env.API_PORT}/api/`
 })
 
 const { getPagination } = require('../../helpers/pagination-helper')

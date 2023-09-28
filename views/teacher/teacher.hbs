@@ -4,12 +4,13 @@
     <div class="col-md-7 m-5">
 
       <div class="d-flex mb-5">
-        <img src="{{teacher.User.avatar}} {{#unless teacher.User.avatar}} {{defaultAvatar}} {{/unless}}" 
-        alt="" width="120px" height="120px" class="me-5">
+        <img src="{{teacher.User.avatar}} {{#unless teacher.User.avatar}} {{defaultAvatar}} {{/unless}}" alt=""
+          width="120px" height="120px" class="me-5">
         <h2 class="mt-5"> {{teacher.User.name}} </h2>
-        
+
       </div>
-      <p> ⭐ 平均評價: {{avgRating}}</p>
+      <p> <i class="fa-solid fa-star" style="color: #ffd500;"></i>平均評價:
+        <small class="badge text-bg-warning fw-bold mb-3"> {{avgRating}}</small>
       <div class="mb-5">
         <h3> 課程內容: </h3>
         <p> {{teacher.courseIntroduce}} </p>
@@ -22,7 +23,7 @@
         <h3> 教學評價: </h3>
         {{#each ratings}}
         <div>
-           ⭐ 
+          <i class="fa-solid fa-star" style="color: #ffd500;"></i>
           <small class="badge text-bg-warning fw-bold mb-3">{{this.score}} </small>
           <span class="text-decoration-underline">{{this.text}}</span>
         </div>
@@ -35,7 +36,7 @@
       <div class="accordion accordion-flush" id="accordionFlushExample">
         <div class="accordion-item mb-5">
           <h2 class="accordion-header">
-            <button class="accordion-button collapsed btn btn-warning  " type="button" data-bs-toggle="collapse"
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
               data-bs-target="#flush-collapseOne" aria-expanded="true" aria-controls="flush-collapseOne">
               可預約的課程:
             </button>
@@ -48,9 +49,8 @@
                   <h5 class="card-title">課程時間:{{TSTTime this.daytime}}</h5>
                   <p class="card-text">上課時長:{{this.duration}} 分鐘
                   <form action="/reserve/{{this.id}}" method="post">
-                    <button class="btn btn-success" type="submit" 
-                    onclick="return confirm(`預約課程 \n 課程時間:  {{TSTTime this.daytime}} \n 課程時長:  {{this.duration}} 分鐘 \n `)"
-                    >預約</button>
+                    <button class="btn btn-outline-success" type="submit"
+                      onclick="return confirm(`預約課程 \n 課程時間:  {{TSTTime this.daytime}} \n 課程時長:  {{this.duration}} 分鐘 \n `)">預約</button>
                   </form>
                   </p>
                 </div>

@@ -1,12 +1,12 @@
 const moment = require('moment')
 require('moment-timezone').tz.setDefault('Asia/Taipei')
 const axios = require('axios')
-const fs = require('fs')
 
 const instance = axios.create({
-  baseURL: `http://localhost:${process.env.API_PORT}/api/`
+  baseURL: `${process.env.API_BASE_URL}:${process.env.API_PORT}/api/`
 })
 
+console.log({ baseURL: `${process.env.API_BASE_URL}:${process.env.API_PORT}/api/` })
 const userController = {
   renderRegister: (req, res) => {
     if (req.session.token) {
