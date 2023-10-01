@@ -3,6 +3,7 @@ const router = express.Router()
 const userController = require('../controllers/user-controller')
 const { authenticated } = require('../middleware/auth-handler')
 const upload = require('../middleware/multer')
+const { generalErrorHandler } = require('../middleware/error-handler')
 
 router.get('/users/register', userController.renderRegister)
 router.post('/users/register', userController.postRegister)
@@ -22,5 +23,9 @@ router.delete('/reserve/:lessonId', authenticated, userController.deleteReserve)
 
 router.get('/rating/:reserveId', authenticated, userController.renderRatingForm)
 router.post('/rating/:reserveId', authenticated, userController.postRating)
+
+router.use(generalErrorHandler)
+
+router.use('/', (req, res, next) => res.redirect('/users/login'))
 
 module.exports = router

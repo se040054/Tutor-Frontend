@@ -8,6 +8,9 @@
         <h2> {{user.name}} {{#unless user.name}}匿名使用者 {{/unless}}</h2>
       </div>
       <div class="mb-5">
+        <p> {{user.email}}  {{/unless}} </p>
+      </div>
+      <div class="mb-5">
         <h3> 關於我 : </h3>
         <p> {{user.introduction}} {{#unless user.introduction}} 尚未留下資訊 {{/unless}} </p>
       </div>
