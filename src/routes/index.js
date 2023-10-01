@@ -18,6 +18,4 @@ router.use(admin)
 
 router.use(generalErrorHandler)
 
-router.use('/', (req, res) => res.redirect('/users/login'))
-
 module.exports = router

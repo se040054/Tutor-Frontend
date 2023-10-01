@@ -7,10 +7,13 @@
         <img src="{{teacher.User.avatar}} {{#unless teacher.User.avatar}} {{defaultAvatar}} {{/unless}}" alt=""
           width="120px" height="120px" class="me-5">
         <h2 class="mt-5"> {{teacher.User.name}} </h2>
-
+        <div class="mb-5">
+          <p> {{teacher.User.email}}</p>
+        </div>
       </div>
       <p> <i class="fa-solid fa-star" style="color: #ffd500;"></i>平均評價:
-        <small class="badge text-bg-warning fw-bold mb-3"> {{avgRating}}</small>
+        <small class="badge text-bg-warning fw-bold mb-3"> {{avgRating}} 
+          {{#unless avgRating}} 尚未有評價 {{/unless}} </small>
       <div class="mb-5">
         <h3> 課程內容: </h3>
         <p> {{teacher.courseIntroduce}} </p>

@@ -40,14 +40,22 @@ const teacherController = {
     }).then(response => {
       const { teacher, highestRatingLessons, lowestRatingLessons, avgRating } = response.data.data
       const ratings = []
-      highestRatingLessons.concat(lowestRatingLessons).forEach(lesson => {
-        ratings.push(lesson.Reserve.Rating)
+      let resultRatings = []
+      let rating = 0
+      if (highestRatingLessons.length > 1 && lowestRatingLessons.length > 1 && avgRating) {
+        highestRatingLessons.concat(lowestRatingLessons).forEach(lesson => {
+          ratings.push(lesson.Reserve.Rating)
+        })
+        const set = new Set()
+        resultRatings = ratings.filter(rating => !set.has(rating.id) ? set.add(rating.id) : false)
+        resultRatings = resultRatings.sort((a, b) => b.score - a.score)
+        rating = parseFloat(avgRating.avgRating.toFixed(2)) // 去尾數0
+      }
+      return res.render('teacher/teacher', {
+        teacher,
+        ratings: resultRatings || null,
+        avgRating: rating || null
       })
-      const set = new Set()
-      let resultRatings = ratings.filter(rating => !set.has(rating.id) ? set.add(rating.id) : false)
-      resultRatings = resultRatings.sort((a, b) => b.score - a.score)
-      const rating = parseFloat(avgRating.avgRating.toFixed(2)) // 去尾數0
-      return res.render('teacher/teacher', { teacher, ratings: resultRatings, avgRating: rating })
     }).catch(err => next(err))
   },
   renderMe: (req, res, next) => {

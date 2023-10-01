@@ -26,6 +26,4 @@ router.post('/rating/:reserveId', authenticated, userController.postRating)
 
 router.use(generalErrorHandler)
 
-router.use('/', (req, res, next) => res.redirect('/users/login'))
-
 module.exports = router
